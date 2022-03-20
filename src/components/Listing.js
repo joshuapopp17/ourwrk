@@ -3,7 +3,7 @@ import { Card, Button } from 'react-bootstrap'
 
 function Listing({title, description, hours}) {
   return (
-    <Card style={{ width: '18rem'}}>
+    <Card>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Card.Text>

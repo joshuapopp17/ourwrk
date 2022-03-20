@@ -1,18 +1,26 @@
 import React from 'react'
+import { Container, Row, Col } from 'react-bootstrap'
 import Listing from './Listing'
 
 function ListingContainer({category}) {
   return (
-      <div  style={{marginLeft: "30px"}} className='mt-3'>
+    <Container fluid="md" className="mt-5">
           <h1>{category}</h1>
-        <div className='d-flex gap-3' >
-            <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
-            <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
-            <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
-            <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
-            <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
-        </div>
-      </div>
+            <Row>
+              <Col sm={4}>
+                <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
+              </Col>
+              <Col sm={4}>
+                <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
+              </Col>
+              <Col sm={4}>
+                <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
+              </Col>
+              <Col sm={4}>
+                <Listing title={"Garden Clean Up"} description="We need workers to water and trim the plants at the community garden." hours={2}/>
+              </Col>
+            </Row>
+    </Container>
   )
 }
 
