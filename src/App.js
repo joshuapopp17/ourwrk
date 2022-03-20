@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 function App() {
   return (
-    <div className="App">
+    <div class="d-flex p-2 justify-content-center align-items-center">
       <Button type="button" className="btn btn-primary">Button #1</Button>
     </div>
   );
