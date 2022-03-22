@@ -3,22 +3,16 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 
 function NavBar() {
   return (
-    <Navbar bg="light" variant="light" expand="lg">
+    <Navbar className="fixed-top" bg="primary" variant="dark">
     <Container>
-    <Navbar.Brand href="#home">OurWrk.net</Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="me-auto ">
-        <Nav.Link className='text-dark'  href="#home">
-            Create
-        </Nav.Link>
-        <Nav.Link className='text-dark'  href="#home">
-            Profile
-        </Nav.Link>
-      </Nav>
-    </Navbar.Collapse>
-  </Container>
-</Navbar>
+    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+    <Nav className="me-auto">
+      <Nav.Link href="/">Home</Nav.Link>
+      <Nav.Link href="/create">Create</Nav.Link>
+      <Nav.Link href="/profile">Profile</Nav.Link>
+    </Nav>
+    </Container>
+  </Navbar>
   )
 }
 
