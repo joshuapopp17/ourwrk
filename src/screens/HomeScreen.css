@@ -13,25 +13,55 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .homeContainer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 70%;
+    background: rgba( 255, 255, 255, 0.75 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 9.5px );
+    -webkit-backdrop-filter: blur( 9.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    box-sizing: border-box;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1rem;
+    width: 70%;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .box {
-    background: rgba( 255, 255, 255, 0.55 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 2.5px );
-    -webkit-backdrop-filter: blur( 2.5px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
       display: flex;
+      text-align: center;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 200px;
+      align-items: center;
+      padding: 1rem;
+  }
+
+  .title {
+      font-size: 4rem;
+      font-weight: bold;
+  }
+
+  .text {
+    font-size: 2.5rem;
+  }
+  .button {
+      margin-top: 20px;
+      margin-left: 10px;
+      margin-right: 10px;
+  }
+
+  .buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
