@@ -1,21 +1,17 @@
 import React from 'react'
-import { Col, Row, Container } from 'react-bootstrap';
-import ListingContainer from '../components/ListingContainer.js'
-import MessageBox from '../components/MessageBox';
-
+import { Container } from 'react-bootstrap'
+import './HomeScreen.css'
 
 function HomeScreen() {
   return (
-    <Container className={'mt-5'}>
-    <Row>
-      <Col sm={8} >
-        <ListingContainer category={"Gardening"}/>
-      </Col>
-      <Col sm={4}>
-
-      </Col>
-    </Row>
-  </Container>
+    <div className='bg'>
+      <div className={'homeContainer'} style={{paddingTop: '70px'}}>
+        <Container className={'box'}>
+          <h1>OurWrk</h1>
+          <h3>bringing communities togehter one hour at a time</h3>
+        </Container>
+      </div>
+    </div>
   )
 }
 

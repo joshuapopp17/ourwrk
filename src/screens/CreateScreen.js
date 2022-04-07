@@ -38,7 +38,7 @@ function CreateScreen() {
   }
 
   return (
-      <Container className={'mt-5'}>
+      <Container style={{paddingTop: '70px'}} className={'mt-5'}>
         <h1>Create a new Listing</h1>
         <Form>
               <Form.Group className="mb-3" controlId="Title">

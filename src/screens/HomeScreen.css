@@ -1,0 +1,37 @@
+.bg {
+    /* The image used */
+    background-image: url("https://www.fodors.com/wp-content/uploads/2019/11/CharmingHomesAndGardensToInstagramInNottingHill__HERO_shutterstock_616977371.jpg");
+  
+    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow: hidden;
+    /* Full height */
+    width: 100vw;
+    height: 100vh;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .homeContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70%;
+  }
+
+  .box {
+    background: rgba( 255, 255, 255, 0.55 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 2.5px );
+    -webkit-backdrop-filter: blur( 2.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+  }

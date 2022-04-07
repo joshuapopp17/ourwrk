@@ -1,9 +1,10 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import { Button, Container } from 'react-bootstrap'
+import { UserContext } from '../App';
 
 function ProfileScreen() {
   return (
-      <Container>
+      <Container style={{paddingTop: '70px'}} className={'mt-5'}>
             <div>ProfileScreen</div>
       </Container>
   )
