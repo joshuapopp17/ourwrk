@@ -10,28 +10,53 @@ import ExpandedScreen from './screens/ExpandedScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
-import SignUp from './screens/SignUp';
+import SignUpScreen from './screens/SignUp';
 import ListingsScreen from './screens/ListingsScreen';
-
+import { UserAuthContextProvider } from './context/UserAuthContext';
+import ProtectedRoute from './screens/ProtectedRoute';
 
 function App() {
 
+
+
   return (
     <div>
-        <NavBar />
+      <UserAuthContextProvider>
         <Router>
+        <NavBar />
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
-            <Routes>
-              <Route path="/create" element={<CreateScreen />}/>
-              <Route path="/listing" element={<ExpandedScreen />}/>
-              <Route path="/profile" element={<ProfileScreen />}/>
-              <Route path="/listings" element={<ListingsScreen />}/>
-              <Route path="/login" element={<LoginScreen />}/>
-              <Route path="/signup" element={<SignUp />}/>
-              <Route path="/" element={<HomeScreen />}/>
-            </Routes>
+              <Routes>
+                <Route path="/" element={<HomeScreen />}/>
+                <Route path="/login" element={<LoginScreen />}/>
+                <Route path="/signup" element={<SignUpScreen />}/>
+                <Route path="/listings" 
+                  element={
+                  <ProtectedRoute>
+                    <ListingsScreen />
+                  </ProtectedRoute>} 
+                />
+                <Route path="/profile" 
+                  element={
+                  <ProtectedRoute>
+                    <ProfileScreen />
+                  </ProtectedRoute>} 
+                />
+                <Route path="/expanded" 
+                  element={
+                  <ProtectedRoute>
+                    <ExpandedScreen />
+                  </ProtectedRoute>} 
+                />
+                <Route path="/create" 
+                  element={
+                  <ProtectedRoute>
+                    <CreateScreen />
+                  </ProtectedRoute>} 
+                />
+              </Routes>
         </Router>
+        </UserAuthContextProvider>
     </div>
   );
 }

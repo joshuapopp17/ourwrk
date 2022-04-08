@@ -1,25 +1,27 @@
 import React, {useState} from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
-
-import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { Container, Form, Button, Alert } from 'react-bootstrap'
+import { useUserAuth } from '../context/UserAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginScreen = () => {
-
+    const {logIn} = useUserAuth()
+    const navigate = useNavigate()
+    const [error, setError] = useState("")
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-  const handleLogin = () => {
-    console.log("logging")
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log("looged in");
-    })
-    .catch((error) => {
-      alert(error);
-    })
-  }
+    const handleSignIn = async () => {
+      console.log("logging")
+      try {
+        await logIn(email, password)
+        navigate("/listings")
+      } catch (error) {
+        setError(error.message)
+        console.log(error.message)
+      }
+
+    } 
 
   return (
       <Container style={{paddingTop: '70px'}} className={'mt-5'}>
@@ -34,10 +36,12 @@ const LoginScreen = () => {
                 <Form.Control value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="password" />
               </Form.Group>
 
-              <Button variant="primary" onClick={() => handleLogin()}>
+              {error ?  <Alert variant='danger'>{error}</Alert>: <></>}
+
+              <Button variant="primary" onClick={() => handleSignIn()}>
                 Sign in
               </Button>
-              <Button className="m-1" variant="outline-primary" href="/signup">
+              <Button style={{marginLeft: '20px'}} variant="outline-primary" href="/signup">
                   Don't have an account? Sign Up
               </Button>
         </Form>
