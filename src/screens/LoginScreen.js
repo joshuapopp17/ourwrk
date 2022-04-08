@@ -39,9 +39,9 @@ const LoginScreen = () => {
               {error ?  <Alert variant='danger'>{error}</Alert>: <></>}
 
               <Button variant="primary" onClick={() => handleSignIn()}>
-                Sign in
+                Log in
               </Button>
-              <Button style={{marginLeft: '20px'}} variant="outline-primary" href="/signup">
+              <Button style={{marginLeft: '20px'}} variant="outline-primary" onClick={() => navigate("/signup")}>
                   Don't have an account? Sign Up
               </Button>
         </Form>

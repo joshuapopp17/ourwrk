@@ -48,8 +48,8 @@ const SignUpScreen = () => {
                   <Button variant="primary" onClick={() => handleSignup()}>
                     Sign Up
                   </Button>
-                  <Button style={{marginLeft: '20px'}} variant="outline-primary" href="/login">
-                  Back to log in
+                  <Button style={{marginLeft: '20px'}} variant="outline-primary" onClick={() => navigate("/login")}>
+                  Have an account? Log in
               </Button>
             </Form>
         </Container>
