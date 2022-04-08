@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth';
-import React, { useContext } from 'react'
+import React from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import { useUserAuth } from '../context/UserAuthContext';
@@ -20,7 +20,8 @@ function NavBar() {
       <Nav.Link className="fs-5" as={Link} to="/profile">Profile</Nav.Link>
     </Nav> : <></>}
     <Nav className="mr-auto">
-      {user ? <Nav.Link className="fs-5" as={Link} onClick={() => logOut()} to="/login">Sign Out</Nav.Link> : <Nav.Link className="fs-5" as={Link} to="/login">Sign In</Nav.Link>}
+      {user ? <Nav.Link className="fs-5" as={Link} onClick={() => logOut()} to="/login">Sign Out</Nav.Link> 
+      : <Nav.Link className="fs-5" as={Link} to="/login">Log In</Nav.Link>}
     </Nav>
     </Container>
   </Navbar>
