@@ -16,9 +16,10 @@ function CreateScreen() {
   const [zip, setZip] = useState('')
   const [time, setTime] = useState('')
   const [date, setDate] = useState('')
+  const [type, setType] = useState('')
 
-  const [hours, setHours] = useState(0)
-  const [slots, setSlots] = useState(0)
+  const [hours, setHours] = useState()
+  const [slots, setSlots] = useState()
 
   const createListing = async () => {
     console.log("creating")
@@ -36,7 +37,8 @@ function CreateScreen() {
       attendingWorkers: [],
       time: time,
       date: date,
-      host: user.uid
+      host: user.uid,
+      type: type,
     }
 
     await setDoc(jobsRef, data);
@@ -44,7 +46,7 @@ function CreateScreen() {
   }
 
   return (
-      <Container style={{paddingTop: '70px'}} className={'mt-5'}>
+      <Container style={{paddingTop: '70px',width: '40rem', paddingBottom: '70px'}} className={'mt-5'}>
         <h1>Create a new Listing</h1>
         <Form>
               <Form.Group className="mb-3" controlId="Title">
@@ -72,24 +74,38 @@ function CreateScreen() {
                 <Form.Control value={zip} onChange={e => setZip(e.target.value)} type="text" placeholder="Zip Code" />
               </Form.Group>
 
+              <div className="d-flex">
               <Form.Group className="mb-3 w-25 " controlId="Hours">
                 <Form.Label className="fs-3 ">Date</Form.Label>
                 <Form.Control value={date} onChange={e => setDate(e.target.value)} type="date" placeholder="Hours" />
               </Form.Group>
 
-              <Form.Group className="mb-3 w-25 " controlId="Hours">
+              <Form.Group className="mb-3  ms-3 w-25 " controlId="Hours">
                 <Form.Label className="fs-3 ">Start Time</Form.Label>
                 <Form.Control value={time} onChange={e => setTime(e.target.value)} type="time" placeholder="Hours" />
               </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3 w-25 " controlId="Hours">
-                <Form.Label className="fs-3 ">Available Slots</Form.Label>
-                <Form.Control value={slots} onChange={e => setSlots(e.target.value)} type="number" placeholder="Hours" />
-              </Form.Group>
+              <div className="d-flex">
+                <Form.Group className="mb-3 w-25 " controlId="Hours">
+                  <Form.Label className="fs-3 ">Available Slots</Form.Label>
+                  <Form.Control value={slots} onChange={e => setSlots(e.target.value)} type="number" placeholder="Slots" />
+                </Form.Group>
 
-              <Form.Group className="mb-3 w-25 " controlId="Hours">
-                <Form.Label className="fs-3 ">Hours</Form.Label>
-                <Form.Control value={hours} onChange={e => setHours(e.target.value)} type="number" placeholder="Hours" />
+                <Form.Group className="mb-3 ms-3 w-25 " controlId="Hours">
+                  <Form.Label className="fs-3 ">Hours</Form.Label>
+                  <Form.Control value={hours} onChange={e => setHours(e.target.value)} type="number" placeholder="Hours" />
+                </Form.Group>
+              </div>
+              <Form.Group className="mb-3  w-25 " controlId="Selecr">
+                <Form.Label className="fs-3 ">Type</Form.Label>
+                <Form.Select value={type} onChange={e => setType(e.target.value)} aria-label="Default select example">
+                  <option>Select type of work</option>
+                  <option value="Gardening">Gardening</option>
+                  <option value="Cleanup">Cleanup</option>
+                  <option value="Cooking">Cooking</option>
+                  <option value="Other">Other</option>
+                </Form.Select>
               </Form.Group>
 
               <Button variant="primary" onClick={() => createListing()}>

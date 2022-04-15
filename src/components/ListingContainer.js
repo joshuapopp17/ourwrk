@@ -28,7 +28,7 @@ function ListingContainer({category}) {
     <Container className="p-0 mb-5">
           <h1>{category}</h1>
           {listings.map((lisitng, index) => {
-              return <Listing key={index} title={lisitng.title} description={lisitng.description} hours={lisitng.hours}/>
+              return <Listing key={index} id={lisitng.id} title={lisitng.title} description={lisitng.description} hours={lisitng.hours}/>
           })}
     </Container>
   )

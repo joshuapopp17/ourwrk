@@ -24,7 +24,7 @@ const LoginScreen = () => {
     } 
 
   return (
-      <Container style={{paddingTop: '70px'}} className={'mt-5'}>
+      <Container style={{paddingTop: '70px', width: '40rem'}} className={'mt-5'}>
         <Form>
               <Form.Group className="mb-3" controlId="Title">
                 <Form.Label className="fs-3">Email</Form.Label>

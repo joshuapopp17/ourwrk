@@ -42,7 +42,7 @@ function App() {
                     <ProfileScreen />
                   </ProtectedRoute>} 
                 />
-                <Route path="/expanded" 
+                <Route path="/listing/:id" 
                   element={
                   <ProtectedRoute>
                     <ExpandedScreen />
