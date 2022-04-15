@@ -2,8 +2,13 @@ import React, {useState} from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import { db } from '../firebase.js'
 import { collection, doc, setDoc } from "firebase/firestore"; 
+import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
 function CreateScreen() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [street, setStreet] = useState('')
@@ -31,10 +36,11 @@ function CreateScreen() {
       attendingWorkers: [],
       time: time,
       date: date,
-      host: "12151kjf0134h <- example ID"
+      host: user.uid
     }
 
     await setDoc(jobsRef, data);
+    navigate("/listings")
   }
 
   return (
@@ -86,7 +92,7 @@ function CreateScreen() {
                 <Form.Control value={hours} onChange={e => setHours(e.target.value)} type="number" placeholder="Hours" />
               </Form.Group>
 
-              <Button variant="primary" type="submit" onClick={() => createListing()}>
+              <Button variant="primary" onClick={() => createListing()}>
                 Submit
               </Button>
         </Form>

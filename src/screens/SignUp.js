@@ -1,34 +1,29 @@
 import React, {useState} from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { Container, Form, Button, Alert } from 'react-bootstrap'
 import { createUserWithEmailAndPassword, getAuth ,updateProfile } from 'firebase/auth';
+import { useUserAuth } from '../context/UserAuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+const SignUpScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
+    const [error, setError] = useState("")
+    const {SignUp} = useUserAuth()
+    const navigate = useNavigate()
 
-    const handleSignup = () => {
+    const handleSignup = async () => {
       console.log("logging")
-      createUserWithEmailAndPassword(auth, email, password)
-      .then(function(result) {
-      }).catch(function(error) {
-      console.log(error);
-      });
-      handleDisplayName()
+      try {
+        await SignUp(email, password)
+        navigate("/")
+      } catch (error) {
+        setError(error.message)
+        console.log(error.message)
+      }
+
     } 
 
-    const handleDisplayName = () => {
-        updateProfile(auth.currentUser, {
-            displayName: username, photoURL: "https://example.com/jane-q-user/profile.jpg"
-          }).then(() => {
-            console.log("updated")
-            console.log(auth.currentUser)
-          }).catch((error) => {
-            console.log(error)
-          });
-    }
 
     return (
         <Container style={{paddingTop: '70px'}} className={'mt-5'}>
@@ -47,16 +42,18 @@ const SignUp = () => {
                     <Form.Label className="fs-3 ">Password</Form.Label>
                     <Form.Control value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="password" />
                   </Form.Group>
+                  
+                  {error ?  <Alert variant='danger'>{error}</Alert>: <></>}
 
                   <Button variant="primary" onClick={() => handleSignup()}>
                     Sign Up
                   </Button>
-                  <Button className="m-1" variant="outline-primary" href="/login">
-                  Back to log in
+                  <Button style={{marginLeft: '20px'}} variant="outline-primary" onClick={() => navigate("/login")}>
+                  Have an account? Log in
               </Button>
             </Form>
         </Container>
     )
 }
 
-export default SignUp
+export default SignUpScreen

@@ -6,6 +6,10 @@ import Col from 'react-bootstrap/Col';
 import './ProfileScreen.css'
 
 function ProfileScreen() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  console.log(user?.email)
+
   return (
       <Container style={{paddingTop: '130px'}}>
           <div className={'roundContainer1'}>
