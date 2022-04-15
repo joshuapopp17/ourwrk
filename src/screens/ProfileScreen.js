@@ -4,6 +4,7 @@ import ListingContainer from '../components/ListingContainer.js'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './ProfileScreen.css'
+import { getAuth } from 'firebase/auth';
 
 function ProfileScreen() {
   const auth = getAuth();
@@ -11,7 +12,7 @@ function ProfileScreen() {
   console.log(user?.email)
 
   return (
-      <Container style={{paddingTop: '130px'}}>
+      <Container style={{ paddingTop: '70px'}}>
           <div className={'roundContainer1'}>
             <Row mb={1}>
                 <Col xs={1}><img src="http://www.killersites.com/blog/wp-content/uploads/2012/04/icon-html.png" alt="..." class="img-fluid" style={{maxHeight: '100%'}}></img></Col>
@@ -20,7 +21,8 @@ function ProfileScreen() {
           </div>
           
             <Row>
-              <Col className={'roundContainer2'}><ListingContainer category={"Gardening"}/></Col>
+              <h1>Attending</h1>
+              <Col className={'roundContainer2'}><ListingContainer /></Col>
               <Col className={'roundContainer3'} md={{span:4, offset: 1}}>Hours Planned: <br></br> 4 <br></br> <br></br>Hours Served: <br></br> 4</Col>
             </Row>
       </Container>
