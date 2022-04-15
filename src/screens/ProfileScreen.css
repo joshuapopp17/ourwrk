@@ -1,0 +1,43 @@
+.roundContainer1 {
+    border-radius: 25px;
+    border: 5px solid black;
+    width: 1300px;
+    padding: 50px;
+}
+
+.roundContainer2 {
+    border-radius: 25px;
+    border: 5px solid black;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+    overflow-y: scroll;    
+}
+
+.roundContainer3 {
+    border-radius: 25px;
+    border: 5px solid black;
+    width: 800px;
+    height: 500px;
+    padding: 20px;
+    font-size: 45px;
+    text-align: center;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 20px;
+    background-clip: content-box;
+}
+
+.textWrap {
+    font-size: 45px;
+}
