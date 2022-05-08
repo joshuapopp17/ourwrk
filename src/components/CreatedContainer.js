@@ -4,14 +4,14 @@ import Listing from './Listing'
 import { db } from '../firebase.js'
 import { collection, query, where, getDocs, documentId } from "firebase/firestore";
 
-function AttendingContainer({category, jobs}) {
+function CreatedContainer({category, jobs}) {
   const [listings, setListings] = useState([])
   const [loading, setLoading] = useState(true)
 
   const getUsers = async () => {
     setLoading(true)
     let temp = []
-    console.log("getting attending Jobs")
+    console.log("getting hosted Jobs")
     console.log(jobs)
     const q = query(collection(db, "jobs"), where(documentId(), "in", jobs));
     console.log("1")
@@ -44,4 +44,4 @@ function AttendingContainer({category, jobs}) {
   )
 }
 
-export default AttendingContainer
+export default CreatedContainer

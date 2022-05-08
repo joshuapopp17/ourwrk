@@ -1,15 +1,19 @@
 .roundContainer1 {
     border-radius: 5px;
     width: 1300px;
-    padding: 50px;
-    box-sizing: border-box;
+    margin-top: 50px;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .roundContainer2 {
     border-radius: 5px;
     width: 800px;
     height: 600px;
-    padding: 20px;
     box-sizing: border-box; 
 }
 
@@ -17,7 +21,6 @@
     border-radius: 5px;
     width: 800px;
     height: 500px;
-    padding: 20px;
     font-size: 45px;
     text-align: center;
     box-sizing: border-box;
@@ -39,4 +42,12 @@
 
 .textWrap {
     font-size: 45px;
+}
+
+.hoursTitle {
+    font-size: 40px;
+}
+
+.hoursAmount {
+    font-size: 80px;
 }

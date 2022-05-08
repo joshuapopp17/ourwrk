@@ -1,31 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import ListingContainer from '../components/ListingContainer.js'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './ProfileScreen.css'
 import { getAuth } from 'firebase/auth';
+import AttendingContainer from '../components/AttendingContainer.js';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase.js';
+import WorkerProfile from '../components/WorkerProfile.js';
+import OrganizationProfile from '../components/OrganizationProfile.js';
 
 function ProfileScreen() {
+  const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(true)
   const auth = getAuth();
-  const user = auth.currentUser;
-  console.log(user?.email)
+  const userRef = auth.currentUser;
+  console.log(userRef?.email)
+
+  const getUserInfo = async () => {
+    setLoading(true)
+    console.log("getting Listings")
+    const docRef = doc(db, "users", userRef.uid);
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.data())
+    setUser(docSnap.data())
+    console.log("ATTENDING")
+    console.log(user.attending)
+    if (user) {
+      setLoading(false)
+    }
+    console.log("Done")
+  } 
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
   return (
-      <Container style={{ paddingTop: '70px'}}>
-          <div className={'roundContainer1'}>
-            <Row mb={1}>
-                <Col xs={1}><img src="http://www.killersites.com/blog/wp-content/uploads/2012/04/icon-html.png" alt="..." class="img-fluid" style={{maxHeight: '100%'}}></img></Col>
-                <Col class="border border-2" className={'textWrap'} md={{offset: 1}}>Username</Col>
-            </Row>
-          </div>
-          
-            <Row>
-              <h1>Attending</h1>
-              <Col className={'roundContainer2'}><ListingContainer /></Col>
-              <Col className={'roundContainer3'} md={{span:4, offset: 1}}>Hours Planned: <br></br> 4 <br></br> <br></br>Hours Served: <br></br> 4</Col>
-            </Row>
-      </Container>
+    <div>
+      {!loading ? <div>
+        {user.type === 'worker' ? <WorkerProfile user={user}/> : <OrganizationProfile user={user}/>}
+      </div> : <></>}
+    </div>
   )
 }
 

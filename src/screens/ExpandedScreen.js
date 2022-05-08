@@ -5,14 +5,17 @@ import {
 } from "react-router-dom";
 import { db } from '../firebase';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap'
-import { arrayUnion,  getDoc, doc, updateDoc} from "firebase/firestore";
+import { arrayUnion,  getDoc, doc, updateDoc, where, documentId, collection, getDocs, query} from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
+import Worker from '../components/Worker';
+import WorkerList from '../components/WorkerList';
 
 
 function ExpandedScreen() {
   const [listing, setListing] = useState('')
   const [loading, setLoading] = useState(false)
   const [join, setJoin] = useState(false)
+  const [workers, setWorkers] = useState([])
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -28,18 +31,23 @@ function ExpandedScreen() {
     const docSnap = await getDoc(docRef);
     if (!docSnap) {
     } else {
-      await setListing(docSnap.data())
+      setListing(docSnap.data())
     }
-    if (listing?.attendingWorkers) {
-      for (let x of listing.attendingWorkers) {
-        console.log(x + "=" + user.uid)
-        if (x == user.uid) {
-          console.log("match")
-          setJoin(true)
-        }
-      }
-    }
-    setLoading(false)
+  }
+
+  const getWorkers = async () => {
+    console.log("getting workers")
+    setLoading(true)
+    let temp = []
+    const q = query(collection(db, "jobs"), where(documentId(), "in", listing.attendingWorkers));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log("DATA-----------------------------")
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.data());
+      temp.push(doc.data())
+    });
+    setWorkers(temp)
   }
 
   const joinListing = async () => {
@@ -52,12 +60,36 @@ function ExpandedScreen() {
     getListing()
   }
 
+  const isJoined = () => {
+    if (listing?.attendingWorkers) {
+      for (let x of listing.attendingWorkers) {
+        console.log(x + "=" + user.uid)
+        if (x == user.uid) {
+          console.log("match")
+          setJoin(true)
+        }
+      }
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
     getListing()
   }, [])
+
+  useEffect(() => {
+    isJoined()
+  }, [listing])
+
+  useEffect(() => {
+    if (user.uid !== listing.host) {
+      getWorkers();
+    }
+  } , [join])
   
   return (
-      <Container style={{paddingTop: '70px', paddingBottom: '70px'}} className={'mt-5'}>
+    <div>
+      {!loading ? <Container style={{paddingTop: '70px', paddingBottom: '70px'}} className={'mt-5'}>
           <div className='d-flex mb-5'>
                 <Button onClick={() => navigate("/listings")}>Back to Listings</Button>
               </div>
@@ -72,11 +104,18 @@ function ExpandedScreen() {
                   <h1 className="fw-bold">Location</h1>
                   <h3  className='fw-light'>{listing.street} {listing.city} {listing.zip}</h3>
                 </Card>
-                <Card className="p-4 mt-3 mb-3">
+                {user.uid !== listing.host ? <Card className="p-4 mt-3 mb-3">
                   <h1 className="fw-bold">Host</h1>
                   <h3 className='fw-light'>{listing.host}</h3>
-                  <h3 className='fw-light'>Website: {"www.org.com"}</h3>
-                </Card>
+                  <h3 className='fw-light'>{listing.website ? listing.website : "no website"}</h3>
+                </Card> 
+                : 
+                <Card className="ps-4 pb-4 pt-2 mt-3">
+                  <Card.Text>
+                    <h1>Attending Workers: </h1>
+                    <WorkerList jobId={id} hours={listing.hours} workers={listing.attendingWorkers}/>
+                  </Card.Text>
+                </Card>}
               </div>
             </Col>
             <Col sm>
@@ -99,7 +138,8 @@ function ExpandedScreen() {
               </Card>
             </Col>
           </Row>
-      </Container>
+      </Container> : <></>}
+    </div>
   )
 }
 

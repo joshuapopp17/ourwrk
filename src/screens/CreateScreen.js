@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import { db } from '../firebase.js'
-import { collection, doc, setDoc } from "firebase/firestore"; 
+import { arrayUnion, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"; 
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 
 function CreateScreen() {
+  const [loading, setLoading] = useState(true)
+  const [profileData, setProfileData] = useState({})
   const auth = getAuth();
   const user = auth.currentUser;
   const navigate = useNavigate()
@@ -22,10 +24,9 @@ function CreateScreen() {
   const [slots, setSlots] = useState()
 
   const createListing = async () => {
+    const userRef = doc(db, "users", user.uid);
     console.log("creating")
-
     const jobsRef = doc(collection(db, "jobs"));
-
     let data = {
       title: title,
       description: description,
@@ -38,15 +39,34 @@ function CreateScreen() {
       time: time,
       date: date,
       host: user.uid,
-      type: type,
+      type: type
     }
 
     await setDoc(jobsRef, data);
+    let userData = {
+      hostedJobs: arrayUnion(jobsRef.id)
+    }
+    updateDoc(userRef, userData)
     navigate("/listings")
   }
 
+  const getProfile = async () => {
+    setLoading(true)
+    const userRef = doc(db, "users", user.uid);
+    await getDoc(userRef).then((res) => {
+      console.log(res.data())
+      setProfileData(res.data())
+      setLoading(false)
+    }) 
+  }
+
+  useEffect(() => {
+    getProfile()
+  }, [])
+
   return (
       <Container style={{paddingTop: '70px',width: '40rem', paddingBottom: '70px'}} className={'mt-5'}>
+        {!loading && profileData.type === 'employer' ? <div>
         <h1>Create a new Listing</h1>
         <Form>
               <Form.Group className="mb-3" controlId="Title">
@@ -88,7 +108,7 @@ function CreateScreen() {
 
               <div className="d-flex">
                 <Form.Group className="mb-3 w-25 " controlId="Hours">
-                  <Form.Label className="fs-3 ">Available Slots</Form.Label>
+                  <Form.Label className="fs-3 ">Slots</Form.Label>
                   <Form.Control value={slots} onChange={e => setSlots(e.target.value)} type="number" placeholder="Slots" />
                 </Form.Group>
 
@@ -97,7 +117,7 @@ function CreateScreen() {
                   <Form.Control value={hours} onChange={e => setHours(e.target.value)} type="number" placeholder="Hours" />
                 </Form.Group>
               </div>
-              <Form.Group className="mb-3  w-25 " controlId="Selecr">
+              <Form.Group className="mb-3 w-50 " controlId="Selecr">
                 <Form.Label className="fs-3 ">Type</Form.Label>
                 <Form.Select value={type} onChange={e => setType(e.target.value)} aria-label="Default select example">
                   <option>Select type of work</option>
@@ -112,6 +132,7 @@ function CreateScreen() {
                 Submit
               </Button>
         </Form>
+        </div> : <h1>You don't have access to this</h1>}
       </Container>
   )
 }

@@ -12,6 +12,7 @@ const SignUpScreen = () => {
     const [username, setUsername] = useState('')
     const [error, setError] = useState("")
     const [workType, setWorkType] = useState("")
+    const [website, setWebsite] = useState("")
     const {SignUp} = useUserAuth()
     const navigate = useNavigate()
 
@@ -22,12 +23,30 @@ const SignUpScreen = () => {
         const auth = getAuth();
         const user = auth.currentUser;
         console.log(user.uid)
+        console.log(workType)
         const docRef = doc(db, "users", user.uid);
-        await setDoc(docRef, 
-          {
-            attending: [],
-            type: "worker"
-          });
+        if (workType === "worker") {
+          await setDoc(docRef, 
+            {
+              attending: [],
+              type: "worker",
+              username: username,
+              hoursWorked: 0
+            });
+        } else if (workType === "employer"){
+          if (website === "") {
+            setError("Please add a website link")
+            return 400
+          }
+          await setDoc(docRef, 
+            {
+              attending: [],
+              type: "employer",
+              username: username,
+              hoursWorked: 0,
+              website: website
+            });
+        }
         navigate("/")
       } catch (error) {
         setError(error.message)
@@ -61,19 +80,27 @@ const SignUpScreen = () => {
                         type={"radio"}
                         id={`Worker`}
                         name="group1"
-                        label={`Worker`}
-                        value={workType} onChange={e => setWorkType(e.target.value)}
+                        checked={workType === 'worker'}
+                        label={`worker`}
+                        value={"worker"} onChange={() => setWorkType('worker')}
                       />
                       <Form.Check
                         type={"radio"}
                         label={`Employer`}
                         name="group1"
-                        id={`employer`}
-                        value={workType} onChange={e => setWorkType(e.target.value)}
+                        checked={workType === 'employer'}
+                        value={"employer"} onChange={() => setWorkType('employer')}
                       />
                     </Form.Group>
+                    {workType === 'employer' ? 
+                                    <Form.Group className="mb-3" controlId="Website">
+                                      <Form.Label className="fs-3 ">Website</Form.Label>
+                                      <Form.Control value={website} onChange={e => setWebsite(e.target.value)} type="text" placeholder="password" />
+                                    </Form.Group>
+                                    :
+                                    <></>
+                    }
                   </div>
-                  <h1>{workType}</h1>
                   {error ?  <Alert variant='danger'>{error}</Alert>: <></>}
 
                   <Button variant="primary" onClick={() => handleSignup()}>
